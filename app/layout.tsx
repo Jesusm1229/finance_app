@@ -25,14 +25,12 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+        <body className={inter.className}>
+          {/* <QueryProvider>
+          <SheetProvider />
+          <Toaster /> */}
           {children}
+          {/*   </QueryProvider> */}
         </body>
       </html>
     </ClerkProvider>
