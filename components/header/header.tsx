@@ -1,8 +1,9 @@
 import { ClerkLoaded, ClerkLoading, UserButton } from '@clerk/nextjs'
-import { Navigation, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import React from 'react'
 import { HeaderLogo } from './header-logo'
 import { WelcomeMsg } from './welcome-msg'
+import { Navigation } from './navigation'
 
 const Header = () => {
     return (
@@ -14,7 +15,7 @@ const Header = () => {
                         <Navigation />
                     </div>
                     <ClerkLoaded>
-                        <UserButton afterSignOutUrl="/" />
+                        <UserButton />
                     </ClerkLoaded>
                     <ClerkLoading>
                         <Loader2 className="size-8 animate-spin text-slate-400" />
