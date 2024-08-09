@@ -12,16 +12,16 @@ const app = new Hono() //Changing structure to support RPC and REST
             const auth = getAuth(c);
 
             if (!auth?.userId) {
-                throw new HTTPException(401, {
+                /* throw new HTTPException(401, {
                     res: c.json({
                         error: "Unauthorized"
                     })
-                });
+                }); */
 
                 //other way to handle error. 
-                /*  return c.json({
-                     error: "Unauthorized"
-                 }, 401); */
+                return c.json({
+                    error: "Unauthorized"
+                }, 401);
 
             }
             const data = await db
