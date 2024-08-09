@@ -3,52 +3,22 @@ import { handle } from 'hono/vercel'
 import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
 import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
+import accounts from './accounts'
 
+// Define the schema for the request body
 export const runtime = 'edge'
 
+//This route is the center for all the routes
 const app = new Hono().basePath('/api')
 
-//c is context
-app
-    .get('/hello',
-        clerkMiddleware(), // Protect route
-        (c) => {
-            const auth = getAuth(c);
 
-            if (!auth?.userId) {
-                return c.json({
-                    message: 'You are not logged in.',
-                })
-            }
+/* app.route('/accounts', accounts)  */// adding accounts route
 
-            return c.json({
-                message: 'Hello Next.js!',
-            })
-        })
-    .get(
-        '/hello/:name',
-        zValidator("param", z.object({
-            name: z.string()
-        })),
-        (c) => {
-            return c.json({
-                message: `Hello ${c.req.valid("param")}!`,
-            })
-        })
-    .post(
-        '/',
-        zValidator("json", z.object({
-            name: z.string(),
-            userId: z.number()
-        })),
-        (c) => {
-            const { name, userId } = c.req.valid("json")
-
-            return c.json({
-                message: `Hello ${c.req.valid("json").name}!`,
-            })
-        })
-
+const routes = app
+    .route('/accounts', accounts)
 
 export const GET = handle(app)
 export const POST = handle(app)
+
+//Enabling RPC. 
+export type AppType = typeof routes;
