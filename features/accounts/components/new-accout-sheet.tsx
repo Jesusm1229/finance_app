@@ -16,7 +16,7 @@ export const NewAccountSheet = () => {
     const { isOpen, onClose } = useNewAccount();
 
     const onSubmit = (values: FormValues) => {
-        console.log(values)
+
     }
 
     return (
@@ -25,7 +25,7 @@ export const NewAccountSheet = () => {
                 <SheetHeader>
                     New Account
                 </SheetHeader>
-                <AccountForm onSubmit={onSubmit} disabled={false} />
+                <AccountForm onSubmit={onSubmit} disabled={false} defaultValues={{ name: "" }} />
                 <SheetDescription>
                     Create a new account to start tracking your finances.
                 </SheetDescription>
