@@ -3,6 +3,7 @@ import { useNewAccount } from "../hooks/use-new-account";
 import AccountForm from "./account-form";
 import { insertAccountsSchema } from "@/db/schema";
 import { z } from "zod";
+import { useCreateAccount } from "../api/use-create-account";
 
 
 const formSchema = insertAccountsSchema.pick({
@@ -15,8 +16,14 @@ type FormValues = z.input<typeof formSchema>
 export const NewAccountSheet = () => {
     const { isOpen, onClose } = useNewAccount();
 
-    const onSubmit = (values: FormValues) => {
+    const mutation = useCreateAccount();
 
+    const onSubmit = (values: FormValues) => {
+        mutation.mutate(values, {
+            onSuccess: () => {
+                onClose()
+            }
+        });//this will call the useCreateAccount hook
     }
 
     return (
@@ -25,7 +32,7 @@ export const NewAccountSheet = () => {
                 <SheetHeader>
                     New Account
                 </SheetHeader>
-                <AccountForm onSubmit={onSubmit} disabled={false} defaultValues={{ name: "" }} />
+                <AccountForm onSubmit={onSubmit} disabled={mutation.isPending} defaultValues={{ name: "" }} />
                 <SheetDescription>
                     Create a new account to start tracking your finances.
                 </SheetDescription>
