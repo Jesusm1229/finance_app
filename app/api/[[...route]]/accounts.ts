@@ -3,6 +3,7 @@ import { accounts } from "@/db/schema";
 import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
+import { eq } from 'drizzle-orm'
 
 const app = new Hono() //Changing structure to support RPC and REST
     .get("/",
@@ -10,7 +11,7 @@ const app = new Hono() //Changing structure to support RPC and REST
         async (c) => {
             const auth = getAuth(c);
 
-            if (!auth) {
+            if (!auth?.userId) {
                 throw new HTTPException(401, {
                     res: c.json({
                         error: "Unauthorized"
@@ -29,6 +30,7 @@ const app = new Hono() //Changing structure to support RPC and REST
                     name: accounts.name,
                 })
                 .from(accounts)
+                .where(eq(accounts.userId, auth.userId));//Accounts of this usser
 
             return c.json({
                 data
