@@ -1,11 +1,19 @@
-import { insertAccountsSchema } from '@/db/schema'
-import React from 'react'
-import { Form, useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { z } from "zod";
+import { Trash } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Trash } from 'lucide-react';
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { insertAccountsSchema } from "@/db/schema";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 
 const formSchema = insertAccountsSchema.pick({
     name: true
@@ -51,19 +59,16 @@ const AccountForm = ({
                 className='space-y-4 pt-4'
             >
                 <FormField
-                    name='name'
+                    name="name"
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>
-                                Name
-                            </FormLabel>
+                            <FormLabel>Name</FormLabel>
                             <FormControl>
-                                <input
-                                    {...field}/* This handlea all the events  */
-                                    type='text'
+                                <Input
                                     disabled={disabled}
-                                    placeholder='e.g. Credit Card, Cash, Bnak'
+                                    placeholder="e.g. Cash, Bank, Credit Card"
+                                    {...field} //this will spread the field props and handle the events
                                 />
                             </FormControl>
                         </FormItem>
