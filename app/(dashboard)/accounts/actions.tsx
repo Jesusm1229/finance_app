@@ -10,9 +10,8 @@ import {
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 
 import { useOpenAccount } from "@/features/accounts/hooks/use-open-account";
-
-import useConfirm from "@/hooks/use-confirm";
 import { useDeleteAccount } from "@/features/accounts/api/use-delete-account";
+import useConfirm from "@/hooks/use-confirm";
 
 type Props = {
     id: string;
@@ -25,7 +24,7 @@ export const Actions = ({ id }: Props) => {
     );
 
     const deleteMutation = useDeleteAccount(id);
-    const { onOpen } = useOpenAccount();//this will call the useOpenAccount hook receive the id
+    const { onOpen } = useOpenAccount();
 
     const handleDelete = async () => {
         const ok = await confirm();

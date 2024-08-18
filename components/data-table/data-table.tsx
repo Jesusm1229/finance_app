@@ -1,19 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import {
     ColumnDef,
     ColumnFiltersState,
     Row,
-    SortingState,
     flexRender,
     getCoreRowModel,
-    getFilteredRowModel,
+    useReactTable,
     getPaginationRowModel,
     getSortedRowModel,
-    useReactTable,
+    getFilteredRowModel,
+    SortingState,
 } from "@tanstack/react-table";
-import { Trash } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import useConfirm from "@/hooks/use-confirm";
 
 import {
     Table,
@@ -23,9 +24,8 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import useConfirm from "@/hooks/use-confirm";
+import React from "react";
+import { Trash } from "lucide-react";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -42,11 +42,16 @@ export function DataTable<TData, TValue>({
     onDelete,
     disabled,
 }: DataTableProps<TData, TValue>) {
-    const [ConfirmDialog, confirm] = useConfirm("Are you sure?", "You're about to delete"); // the most crack line of code in history
+    const [ConfirmationDialog, confirm] = useConfirm(
+        "Delete Confirmation",
+        "Are you sure you want to delete the selected row(s)?"
+    );
 
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [rowSelection, setRowSelection] = useState({});
+    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+        []
+    );
+    const [rowSelection, setRowSelection] = React.useState({});
 
     const table = useReactTable({
         data,
@@ -55,8 +60,8 @@ export function DataTable<TData, TValue>({
         getPaginationRowModel: getPaginationRowModel(),
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
-        onColumnFiltersChange: setColumnFilters,
         getFilteredRowModel: getFilteredRowModel(),
+        onColumnFiltersChange: setColumnFilters,
         onRowSelectionChange: setRowSelection,
         state: {
             sorting,
@@ -67,7 +72,7 @@ export function DataTable<TData, TValue>({
 
     return (
         <div>
-            <ConfirmDialog />
+            <ConfirmationDialog />
             <div className="flex items-center py-4">
                 <Input
                     placeholder={`Filter ${filterKey}...`}
@@ -84,13 +89,12 @@ export function DataTable<TData, TValue>({
                         variant="outline"
                         className="ml-auto font-normal text-xs"
                         onClick={async () => {
-                            const ok = await confirm();// too much pro
+                            const ok = await confirm();
 
                             if (ok) {
                                 onDelete(table.getFilteredSelectedRowModel().rows);
                                 table.resetRowSelection();
                             }
-
                         }}
                     >
                         <Trash className="size-4 mr-2" />
@@ -98,6 +102,7 @@ export function DataTable<TData, TValue>({
                     </Button>
                 )}
             </div>
+
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>

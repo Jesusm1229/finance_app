@@ -1,16 +1,15 @@
-"use client";
+"use client"
 
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { Button } from "@/components/ui/button"
+import { ColumnDef } from "@tanstack/react-table"
+import { ArrowUpDown } from "lucide-react"
+import { Checkbox } from "@/components/ui/checkbox"
 
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { InferResponseType } from "hono";
-import { client } from "@/lib/hono";
-import { Actions } from "./actions";
+import { InferResponseType } from "hono"
+import { client } from "@/lib/hono"
+import { Actions } from "./actions"
 
-export type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0]; // infer the response type
-
+export type ResponseType = InferResponseType<typeof client.api.accounts.$get, 200>["data"][0]
 
 export const columns: ColumnDef<ResponseType>[] = [
     {
@@ -46,26 +45,11 @@ export const columns: ColumnDef<ResponseType>[] = [
                     Name
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
-            );
+            )
         },
     },
     {
         id: "actions",
         cell: ({ row }) => <Actions id={row.original.id} />
-    }
-
-    /* {
-        accessorKey: "amount",
-        header: "Amount",
-        cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("amount"))
-            const formatted = new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-            }).format(amount)
-
-            return <div className="">{formatted}</div>
-        }
-
-    }, */
-];
+    },
+]
