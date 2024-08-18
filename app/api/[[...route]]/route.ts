@@ -3,8 +3,9 @@ import { handle } from 'hono/vercel'
 import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
 import { clerkMiddleware, getAuth } from '@hono/clerk-auth'
-import accounts from './accounts'
 import { HTTPException } from 'hono/http-exception'
+import accounts from './accounts'
+import categories from './categories'
 
 // Define the schema for the request body
 export const runtime = 'edge'
@@ -27,6 +28,7 @@ const app = new Hono().basePath('/api')
 
 const routes = app
     .route('/accounts', accounts)
+    .route('/categories', categories)
 
 export const GET = handle(app);
 export const POST = handle(app);
