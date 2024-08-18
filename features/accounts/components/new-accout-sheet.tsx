@@ -1,19 +1,23 @@
-import { Sheet, SheetContent, SheetDescription, SheetHeader } from "@/components/ui/sheet"
-import { useNewAccount } from "../hooks/use-new-account";
-import AccountForm from "./account-form";
-import { insertAccountsSchema } from "@/db/schema";
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+} from "@/components/ui/sheet";
+import { AccountForm } from "./account-form";
+import { insertAccountSchema } from "@/db/schema";
 import { z } from "zod";
 import { useCreateAccount } from "../api/use-create-account";
+import { useNewAccount } from "../hooks/use-new-accounts";
 
+const formSchema = insertAccountSchema.pick({
+    name: true,
+});
 
-const formSchema = insertAccountsSchema.pick({
-    name: true
-})
+type FormValues = z.input<typeof formSchema>;
 
-type FormValues = z.input<typeof formSchema>
-
-
-export const NewAccountSheet = () => {
+const NewAccountSheet = () => {
     const { isOpen, onClose } = useNewAccount();
 
     const mutation = useCreateAccount();
@@ -23,20 +27,28 @@ export const NewAccountSheet = () => {
             onSuccess: () => {
                 onClose()
             }
-        });//this will call the useCreateAccount hook
-    }
+        })
+    };
 
     return (
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent className="space-y-4">
                 <SheetHeader>
-                    New Account
+                    <SheetTitle>New Account</SheetTitle>
+                    <SheetDescription>
+                        Create a new account to track your transactions.
+                    </SheetDescription>
                 </SheetHeader>
-                <AccountForm onSubmit={onSubmit} disabled={mutation.isPending} defaultValues={{ name: "" }} />
-                <SheetDescription>
-                    Create a new account to start tracking your finances.
-                </SheetDescription>
+                <AccountForm
+                    onSubmit={onSubmit}
+                    disabled={mutation.isPending}
+                    defaultValues={{
+                        name: "",
+                    }}
+                />
             </SheetContent>
         </Sheet>
-    )
-}
+    );
+};
+
+export default NewAccountSheet;

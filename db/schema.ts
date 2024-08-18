@@ -9,4 +9,4 @@ export const accounts = pgTable("accounts", {
 });
 
 
-export const insertAccountsSchema = createInsertSchema(accounts); //schema for inserting accounts  
+export const insertAccountSchema = createInsertSchema(accounts); //schema for inserting accounts  
