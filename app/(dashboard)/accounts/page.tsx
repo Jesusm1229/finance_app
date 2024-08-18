@@ -1,32 +1,42 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/data-table/data-table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNewAccount } from "@/features/accounts/hooks/use-new-account";
 
-import { Payment, columns } from "./columns";
+import { columns } from "./columns";
+import { useGetAccounts } from "@/features/accounts/api/use-get-account";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const data: Payment[] = [
-    {
-        id: "728ed52f",
-        amount: 100,
-        status: "pending",
-        email: "m@example.com",
-    },
-    {
-        id: "728ed54s",
-        amount: 50,
-        status: "success",
-        email: "a@example.com",
-    },
-];
 
 
 const AccountsPage = () => {
     const newAccount = useNewAccount();
+
+    const accountsQuery = useGetAccounts();
+
+    const accounts = accountsQuery.data || [];
+
+    if (accountsQuery.isLoading) {
+        return (
+            <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
+                <Card className="border-none drop-shadow-sm">
+                    <CardHeader>
+                        <Skeleton className="w-40 h-8" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="h-[500px] w-full flex items-center justify-center">
+                            <Loader2 className="size-6 text-slate-300 animate-spin" />
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>);
+    }
+
+
 
     return (
         <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
@@ -41,7 +51,7 @@ const AccountsPage = () => {
                 <CardContent>
                     <DataTable
                         columns={columns}
-                        data={data}
+                        data={accounts}
                         filterKey="email"
                         onDelete={() => { }}
                         disabled={false}

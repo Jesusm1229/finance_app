@@ -14,6 +14,7 @@ import {
     useReactTable,
 } from "@tanstack/react-table";
 import { Trash } from "lucide-react";
+
 import {
     Table,
     TableBody,
@@ -72,7 +73,6 @@ export function DataTable<TData, TValue>({
                     }
                     className="max-w-sm"
                 />
-                {/**Creating delete button */}
                 {table.getFilteredSelectedRowModel().rows.length > 0 && (
                     <Button
                         disabled={disabled}
