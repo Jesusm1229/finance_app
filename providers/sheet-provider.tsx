@@ -7,6 +7,7 @@ import NewCategorySheet from "@/features/categories/components/new-category-shee
 import EditCategorySheet from "@/features/categories/components/edit-category-sheet";
 
 import { useMountedState } from "react-use"
+import { NewTransactionSheet } from "@/features/transactions/components/new-transaction-sheet";
 
 export const SheetProvider = () => {
 
@@ -18,6 +19,7 @@ export const SheetProvider = () => {
         <>
             <NewAccountSheet />
             <EditAccountSheet />
+            <NewTransactionSheet />
 
             <NewCategorySheet />
             <EditCategorySheet />
