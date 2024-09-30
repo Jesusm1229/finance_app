@@ -1,40 +1,12 @@
 {
-  "version": "7",
+  "version": "6",
   "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "7",
-      "when": 1723146570467,
-      "tag": "0000_panoramic_morlun",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1723147280993,
-      "tag": "0001_classy_annihilus",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1723985242935,
-      "tag": "0002_fluffy_devos",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1724017998356,
-      "tag": "0003_mighty_major_mapleleaf",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1724076715037,
-      "tag": "0004_calm_aqueduct",
+      "version": "6",
+      "when": 1716047941044,
+      "tag": "0000_lying_shockwave",
       "breakpoints": true
     }
   ]
